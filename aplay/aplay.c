@@ -2149,6 +2149,9 @@ static ssize_t pcm_read(u_char *data, size_t rcount)
 			xrun();
 		} else if (r == -ESTRPIPE) {
 			suspend();
+		}
+		else if (r == -ENODATA) {
+			suspend();
 		} else if (r < 0) {
 			error(_("read error: %s"), snd_strerror(r));
 			prg_exit(EXIT_FAILURE);
@@ -2192,6 +2195,9 @@ static ssize_t pcm_readv(u_char **data, unsigned int channels, size_t rcount)
 		} else if (r == -EPIPE) {
 			xrun();
 		} else if (r == -ESTRPIPE) {
+			suspend();
+		}
+		else if (r == -ENODATA) {
 			suspend();
 		} else if (r < 0) {
 			error(_("readv error: %s"), snd_strerror(r));
